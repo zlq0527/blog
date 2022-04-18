@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">首页</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/css/animate.css" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <!--<link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">-->
+
+    <link rel="stylesheet" href="../static/lib/editormd/css/editormd.css" th:href="@{/lib/editormd/css/editormd.css}">
+    <link rel="Shortcut Icon" href="../static/images/avatar.jpg" th:href="@{/images/avatar.jpg}" type="image/x-icon"/>
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+    <link rel="Shortcut Icon" href="../static/images/avatar/avatar.jpg" th:href="@{/images/avatar/avatar.jpg}"
+          type="image/x-icon"/>
+    <link rel="stylesheet" href="../static/css/timeline.min.css" th:href="@{/css/timeline.min.css}">
+    <link rel="stylesheet" href="../static/css/font-awesome.4.6.0.css" th:href="@{/css/font-awesome.4.6.0.css}">
+    <link rel="stylesheet" href="../static/css/APlayer.min.css" th:href="@{/css/APlayer.min.css}">
+    <link rel="stylesheet" href="../static/css/viewer.min.css" th:href="@{/css/viewer.min.css}">
+    <link rel="stylesheet" href="../static/css/jquery.eeyellow.Timeline.css"
+          th:href="@{/css/jquery.eeyellow.Timeline.css}">
+</head>
+
+<style>
+    .footer-t {
+        background-color: #aaaaaa;
+        border: none;
+        color: #2e383c;
+    }
+
+
+    body,
+    html {
+        height: 100%;
+    }
+
+</style>
+
+<body>
+
+<!--导航 z-index = 2-->
+<nav th:fragment="menu(n)"
+     class="navbar navbar-inverse nav-me rounded-no nav-tranparent animated fadeIn border-none z-index-2">
+
+    <div class="container-fluid margin-right margin-left-bg">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">切换</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}"><img class="img-circle rotateImg"
+                                                                 src="../static/images/avatar/avatar.jpg"
+                                                                 th:src="${user.avatar}"
+                                                                 style="width: 25px; height: 25px; border: 1px solid #2a6496;"></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="overflow: visible !important;">
+            <ul class="nav navbar-nav">
+                <li><a th:classappend="${n==1} ? 'nav-active'" class="nav-link  font-PF" href="#" th:href="@{/}">
+                    <!--<span class="glyphicon glyphicon-home"></span> -->首页</a></li>
+                <li><a th:classappend="${n==2} ? 'nav-active'" class="nav-link  font-PF" href="#" th:href="@{/types}">
+                    <!--<sapn class="glyphicon glyphicon-leaf"></sapn> -->分类</a></li>
+                <!--                <li th:classappend="${n==3} ? 'text-color-black'"><a class="text-color-white" href="#" th:href="@{/tags}"><sapn class="glyphicon glyphicon-tags"></sapn> 标签</a></li>-->
+                <!--博客时间线-->
+                <!--<li><a class="text-color-white font-HEITI" href="#" th:href="@{/archived/index}"><span class="glyphicon glyphicon-indent-left"></span> 时间线</a></li>-->
+                <!--记录生活-->
+                <li><a th:classappend="${n==3} ? 'nav-active'" class="nav-link  font-PF" href="#"
+                       th:href="@{/timeline/index}"><!--<span class="glyphicon glyphicon-indent-left"></span> -->
+                    记录生活</a></li>
+                <li><a th:classappend="${n==4} ? 'nav-active'" class="nav-link  font-PF" href="#" th:href="@{/about}">
+                    <!--<span class="glyphicon glyphicon-info-sign"></span> -->关于我</a></li>
+                <li><a th:classappend="${n==5} ? 'nav-active'" class="nav-link  font-PF" href="#"
+                       th:href="@{/messageboard}"><!--<span class="glyphicon glyphicon-comment"></span> -->留言板</a></li>
+                <!--<li><a class="text-color-white font-HEITI" href="#" th:href="@{/mypage}"><span class="glyphicon glyphicon-search"></span> 搜索</a></li>-->
+                <li><a th:classappend="${n==6} ? 'nav-active'" class="nav-link  font-PF" href="#" th:href="@{/newpage}">
+                    <!--<span class="glyphicon glyphicon-search"></span> -->搜索</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form class="navbar-form navbar-left" id="searchFormId" th:action="@{/search}" method="post"
+                          role="search">
+                        <div class="input-group">
+                            <input style="color: black;" type="text" class="form-control lucency-only-box-sm"
+                                   id="articletitleId" name="articletitle" placeholder="搜索文章...">
+                            <span class="input-group-btn">
+                                <button style="outline: none;" class="btn btn-default lucency-only-box-sm" type="button"
+                                        onclick="subsearchForm();">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--首图层 - 大-->
+<div th:fragment="first" class="hide-picture">
+    <div class="div-background animated fadeInUpBig z-index-1"
+         style="filter: brightness(80%); width: 100%; height: 100%;" id="firstPicture-container"></div>
+    <div class="container-fluid me-info" style="width: 100%;">
+
+        <div class="col-md-12 z-index-2 animated zoomIn">
+            <div class="text-center">
+                <a href="javascript:void(0);" onclick="downroll();">
+                    <img class="img-size-xs img-circle text-border rotateImg" src="../static/images/avatar/avatar2.jpg"
+                         th:src="${user.avatar}">
+                </a>
+                <div class="row">
+                    <b><h2 class="font-HUAWENXINWEI color-title" th:text="${user.pagetitle}">Sunshine Boy</h2></b>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="color-me font-HUAWENXINWEI" th:text="${user.cardtitle}">逐梦无惧</h3>
+                    </div>
+                </div>
+                <br><br><br>
+            </div>
+        </div>
+
+    </div>
+
+    <!--<div class="row wisdom">-->
+    <!--<div class="col-md-12 text-center wisdom-text">-->
+    <!--<p id="hitokoto"></p>-->
+    <!--<p id="source"></p>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+
+<!--首图层 - 小-->
+<div th:fragment="first-small" class="hide-picture">
+    <div class="div-background-blog animated fadeInUpBig z-index-1 first-picture-small" style="filter: brightness(70%);"
+         id="firstPicture-container-small"></div>
+    <!--<br><br><br><br><br>-->
+    <div class="container first-picture-small-me-info" style="width: 100%;">
+        <div class="row">
+            <div class="col-md-12 z-index-2 animated zoomIn">
+                <div class="text-center">
+                    <a href="javascript:void(0);" onclick="downrollblog();">
+                        <img class="img-size-tiny img-circle text-border rotateImg"
+                             src="../static/images/avatar/avatar2.jpg" th:src="${user.avatar}">
+                    </a>
+                    <div class="row">
+                        <b><h2 class="text-color-white font-FANGZHENGSHUTI color-title" th:text="${user.cardtitle}">
+                            Sunshine Boy</h2></b>
+                    </div>
+                    <!--<br><br><br><br><br><br><br>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部-->
+<div th:fragment="footer" class="container-fluid">
+    <div class="panel footer-t lucency-sm margin-none">
+        <div class="container">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <img src="../static/images/wechat.png" th:src="@{/images/wechat.png}"
+                             class="img-square img-rounded">
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="font-PF text-color-teal">友情连接</h4>
+                        <p><a class="a-color-aaa" href="http://figure.blogry.cn/#/login" target="_blank"
+                              th:href="@{http://figure.blogry.cn/#/login}">我的图床</a></p>
+                        <p><a class="a-color-aaa" href="javascript:(0)" target="_blank">不知道写什么</a></p>
+                        <p><a class="a-color-aaa" href="https://glyphicons.com/" th:href="@{https://glyphicons.com/}"
+                              target="_blank">glyphicons字体图标</a></p>
+
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="font-PF text-color-teal">联系我</h4>
+                        <p>QQ：1142401783</p>
+                        <p>微信公众号：<a target="_blank"
+                                    href="https://img-blog.csdnimg.cn/e145e58b508944cda210ef118ac5f9f1.jpg">创美于行</a></p>
+                        <p>Email：1142401783@qq.com</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h4 class="font-PF text-color-teal">博客</h4>
+                        <p>这是我的技术博客，我会在这里向大家分享我的编程、写作、学习的相关内容，如果能给大家带来帮助，本人不胜荣幸，如有错误，欢迎指正！</p>
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div class="row text-center">
+                    <p>Copyright@ 2021-2022 personalBlog</p>
+                    <p>
+                        <a href="http://www.beian.miit.gov.cn/"
+                           th:href="@{http://www.beian.miit.gov.cn}" target="_blank" class="a-color-aaa">豫ICP备2021031244号</a>
+                    </p>
+                    <!--<p><span id="timeDate">0</span>天 <span id="times"></span></p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--script-->
+<th:block th:fragment="script">
+    <script src="../static/js/jq.js" th:src="@{/js/jq.js}"></script>
+    <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <!--<script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>-->
+
+    <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js"
+            th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script src="../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="../static/js/smoothscroll.js" th:src="@{/js/smoothscroll.js}"></script>
+    <script src="../static/js/animatext.min.js" th:src="@{/js/animatext.min.js}"></script>
+    <script src="../static/js/ribbon.min.js" th:src="@{/js/ribbon.min.js}"></script>
+    <script src="../static/js/APlayer.min.js" th:src="@{/js/APlayer.min.js}"></script>
+    <script src="../static/js/viewer.min.js" th:src="@{/js/viewer.min.js}"></script>
+    <script src="../static/js/timeline/jquery.eeyellow.Timeline.js"
+            th:src="@{/js/timeline/jquery.eeyellow.Timeline.js}"></script>
+    <!--    <script type="text/javascript" color="0,205,205" opacity='0.9' zIndex="-2" count="99" pointcolor="0,0,255" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>-->
+
+
+    <!--<script>-->
+    <!--function getWisdom() {-->
+
+    <!--var hitokoto = '月儿弯弯照九州，几家欢乐几家愁。';-->
+    <!--var source = '月儿弯弯照九州'-->
+
+    <!--$.get('https://v1.hitokoto.cn/', {}, function (val) {-->
+    <!--if (val.hitokoto != null && val.hitokoto != '') {-->
+    <!--document.getElementById("hitokoto").innerText = "「 " + val.hitokoto + " 」"-->
+    <!--}-->
+    <!--if (val.from != null && '' != val.from) {-->
+    <!--source = val.from-->
+    <!--document.getElementById("source").innerText = "&#45;&#45;" + val.from-->
+    <!--}-->
+    <!--}, "json")-->
+    <!--}-->
+    <!--</script>-->
+
+    <script>
+        function downroll() {
+            var t = $(window).scrollTop();
+            $('body,html').animate({'scrollTop': t + 950}, 0)
+            return false
+        }
+    </script>
+
+    <script>
+        function downrollblog() {
+            var t = $(window).scrollTop();
+            $('body,html').animate({'scrollTop': t + 400}, 0)
+            return false
+        }
+    </script>
+
+    <script>
+        //滚动监听
+        var waypoint = new Waypoint({
+            element: document.getElementById('contentId'),
+            handler: function (direction) {
+                if (direction == 'down') {
+                    $('#toolbar').show(500);
+                } else {
+                    $('#toolbar').hide(500);
+                }
+                //console.log('Scrolled to waypoint!  ' + direction);
+            }
+        })
+
+        function gotoTop() {
+            var scroll_offset = $("body").offset(); //得到pos这个div层的offset，包含两个值，top和left
+            $("body,html").animate({
+                scrollTop: scroll_offset.top //让body的scrollTop等于pos的top，就实现了滚动
+            }, 0);
+            return false;
+        }
+    </script>
+
+    <!--网站运行时间-->
+    <!--<script>
+        var now = new Date();
+
+        function createtime() {
+            var grt = new Date("08/06/2020 00:00:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+            now.setTime(now.getTime() + 250);
+            days = (now - grt) / 1000 / 60 / 60 / 24;
+            dnum = Math.floor(days);
+            hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum);
+            hnum = Math.floor(hours);
+            if (String(hnum).length == 1) {
+                hnum = "0" + hnum;
+            }
+            minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
+            mnum = Math.floor(minutes);
+            if (String(mnum).length == 1) {
+                mnum = "0" + mnum;
+            }
+            seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+            snum = Math.round(seconds);
+            if (String(snum).length == 1) {
+                snum = "0" + snum;
+            }
+            document.getElementById("timeDate").innerHTML = "本站已安全运行 " + dnum + " 天 ";
+            document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+        }
+
+        setInterval("createtime()", 250);
+    </script>-->
+</th:block>
+
+<!--搜索-->
+<script>
+
+    function subsearchForm() {
+        //拿到搜索文本框内容
+        var articleobject = $("#articletitleId");
+        if (articleobject.val() == "" || articleobject.val() == null) {
+            articleobject.prop("placeholder", "搜索内容不能为空!");
+            articleobject.focus();
+        } else {
+            //提交表单
+            $("#searchFormId").submit();
+        }
+    }
+</script>
+
+
+</body>
+</html>

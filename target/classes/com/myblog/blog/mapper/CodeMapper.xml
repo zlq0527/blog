@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.blog.dao.CodeMapper">
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Code">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="security_code" jdbcType="VARCHAR" property="securityCode"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, security_code
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_code
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_code
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.myblog.blog.model.Code">
+        insert into t_code (id, security_code)
+        values (#{id,jdbcType=BIGINT}, #{securityCode,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Code">
+        insert into t_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="securityCode != null">
+                security_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="securityCode != null">
+                #{securityCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Code">
+        update t_code
+        <set>
+            <if test="securityCode != null">
+                security_code = #{securityCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Code">
+        update t_code
+        set security_code = #{securityCode,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <!--自定义-->
+    <select id="selectByCode" resultType="Integer">
+        select id from t_code
+        where security_code = #{code}
+    </select>
+
+</mapper>

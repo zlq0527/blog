@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.blog.dao.BlogMapper">
+
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Blog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="firstpicture" jdbcType="VARCHAR" property="firstpicture"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="typeid" jdbcType="INTEGER" property="typeid"/>
+        <result column="tagid" jdbcType="INTEGER" property="tagid"/>
+        <result column="nature" jdbcType="VARCHAR" property="nature"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="view" jdbcType="INTEGER" property="view"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="stick" jdbcType="BIT" property="stick"/>
+        <result column="recommend" jdbcType="BIT" property="recommend"/>
+        <result column="reprint" jdbcType="BIT" property="reprint"/>
+        <result column="supportreview" jdbcType="BIT" property="supportreview"/>
+        <result column="admire" jdbcType="BIGINT" property="admire"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="recordlife" jdbcType="BIT" property="recordlife"/>
+    </resultMap>
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.myblog.blog.model.Blog">
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content,recordlife
+    </sql>
+    <sql id="alllist">
+        id, firstpicture, createtime, updatetime, tagid, content, nature, title, view, description, stick, recommend, reprint, supportreview, admire, typeid, recycle, recordlife, sort
+    </sql>
+
+    <sql id="Blob_Column_List">
+        content
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_blog
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_blog
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.myblog.blog.model.Blog">
+        insert into t_blog (id, firstpicture, createtime,
+        updatetime, typeid, tagid,
+        nature, title, view,
+        description, stick, recommend,
+        reprint, supportreview, admire,
+        content)
+        values (#{id,jdbcType=BIGINT}, #{firstpicture,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+        #{updatetime,jdbcType=TIMESTAMP}, #{typeid,jdbcType=INTEGER}, #{tagid,jdbcType=INTEGER},
+        #{nature,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{view,jdbcType=INTEGER},
+        #{description,jdbcType=VARCHAR}, #{stick,jdbcType=BIT}, #{recommend,jdbcType=BIT},
+        #{reprint,jdbcType=BIT}, #{supportreview,jdbcType=BIT}, #{admire,jdbcType=BIGINT},
+        #{content,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Blog">
+        insert into t_blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="firstpicture != null">
+                firstpicture,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="updatetime != null">
+                updatetime,
+            </if>
+            <if test="typeid != null">
+                typeid,
+            </if>
+            <if test="tagid != null">
+                tagid,
+            </if>
+            <if test="nature != null">
+                nature,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="view != null">
+                view,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="stick != null">
+                stick,
+            </if>
+            <if test="recommend != null">
+                recommend,
+            </if>
+            <if test="reprint != null">
+                reprint,
+            </if>
+            <if test="supportreview != null">
+                supportreview,
+            </if>
+            <if test="admire != null">
+                admire,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="recycle != null">
+                recycle,
+            </if>
+            <if test="recordlife != null">
+                recordlife
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="firstpicture != null">
+                #{firstpicture,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="typeid != null">
+                #{typeid,jdbcType=INTEGER},
+            </if>
+            <if test="tagid != null">
+                #{tagid,jdbcType=INTEGER},
+            </if>
+            <if test="nature != null">
+                #{nature,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="view != null">
+                #{view,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stick != null">
+                #{stick,jdbcType=BIT},
+            </if>
+            <if test="recommend != null">
+                #{recommend,jdbcType=BIT},
+            </if>
+            <if test="reprint != null">
+                #{reprint,jdbcType=BIT},
+            </if>
+            <if test="supportreview != null">
+                #{supportreview,jdbcType=BIT},
+            </if>
+            <if test="admire != null">
+                #{admire,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="recycle != null">
+                #{recycle,jdbcType=BIT},
+            </if>
+            <if test="recordlife != null">
+                #{recordlife,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Blog">
+        update t_blog
+        <set>
+            <if test="firstpicture != null">
+                firstpicture = #{firstpicture,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="typeid != null">
+                typeid = #{typeid,jdbcType=INTEGER},
+            </if>
+            <if test="tagid != null">
+                tagid = #{tagid,jdbcType=INTEGER},
+            </if>
+            <if test="nature != null">
+                nature = #{nature,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="view != null">
+                view = #{view,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="stick != null">
+                stick = #{stick,jdbcType=BIT},
+            </if>
+            <if test="recommend != null">
+                recommend = #{recommend,jdbcType=BIT},
+            </if>
+            <if test="reprint != null">
+                reprint = #{reprint,jdbcType=BIT},
+            </if>
+            <if test="supportreview != null">
+                supportreview = #{supportreview,jdbcType=BIT},
+            </if>
+            <if test="admire != null">
+                admire = #{admire,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="recordlife != null">
+                recordlife = #{recordlife,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.myblog.blog.model.Blog">
+        update t_blog
+        set firstpicture = #{firstpicture,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        typeid = #{typeid,jdbcType=INTEGER},
+        tagid = #{tagid,jdbcType=INTEGER},
+        nature = #{nature,jdbcType=VARCHAR},
+        title = #{title,jdbcType=VARCHAR},
+        view = #{view,jdbcType=INTEGER},
+        description = #{description,jdbcType=VARCHAR},
+        stick = #{stick,jdbcType=BIT},
+        recommend = #{recommend,jdbcType=BIT},
+        reprint = #{reprint,jdbcType=BIT},
+        supportreview = #{supportreview,jdbcType=BIT},
+        admire = #{admire,jdbcType=BIGINT},
+        content = #{content,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Blog">
+        update t_blog
+        set firstpicture = #{firstpicture,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        typeid = #{typeid,jdbcType=INTEGER},
+        tagid = #{tagid,jdbcType=INTEGER},
+        nature = #{nature,jdbcType=VARCHAR},
+        title = #{title,jdbcType=VARCHAR},
+        view = #{view,jdbcType=INTEGER},
+        description = #{description,jdbcType=VARCHAR},
+        stick = #{stick,jdbcType=BIT},
+        recommend = #{recommend,jdbcType=BIT},
+        reprint = #{reprint,jdbcType=BIT},
+        supportreview = #{supportreview,jdbcType=BIT},
+        admire = #{admire,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <!--自定义查询-->
+    <resultMap id="BlogTypeResultMap" type="com.myblog.blog.model.Blog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="firstpicture" jdbcType="VARCHAR" property="firstpicture"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
+        <result column="typeid" jdbcType="INTEGER" property="typeid"/>
+        <result column="tagid" jdbcType="INTEGER" property="tagid"/>
+        <result column="nature" jdbcType="VARCHAR" property="nature"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="view" jdbcType="INTEGER" property="view"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="stick" jdbcType="BIT" property="stick"/>
+        <result column="recommend" jdbcType="BIT" property="recommend"/>
+        <result column="reprint" jdbcType="BIT" property="reprint"/>
+        <result column="supportreview" jdbcType="BIT" property="supportreview"/>
+        <result column="admire" jdbcType="BIGINT" property="admire"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="recordlife" jdbcType="BIT" property="recordlife"></result>
+        <result column="sort" jdbcType="INTEGER" property="sort"></result>
+
+        <association property="type" javaType="com.myblog.blog.model.Type" select="queryType" column="typeid">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="name" jdbcType="VARCHAR" property="name"/>
+        </association>
+
+    </resultMap>
+
+    <select id="selectAll" resultMap="BlogTypeResultMap">
+        select
+        id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content,recordlife,sort
+        from
+        t_blog
+        where
+        recycle != 1
+        order by  createtime desc
+        limit #{startpage},#{number}
+    </select>
+
+    <select id="getAllBlog" resultMap="BlogTypeResultMap">
+        select
+        id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content,recordlife
+        from
+        t_blog
+        where
+        recycle != 1
+    </select>
+
+    <!--简单查询-->
+    <select id="getAllSimpleBlog" resultMap="BlogTypeResultMap">
+        select
+        id, firstpicture, createtime, updatetime, typeid, title, view, description,
+        stick, recommend, reprint, supportreview, admire,recordlife
+        from
+        t_blog
+        where
+        recycle != 1
+    </select>
+
+    <select id="queryType" resultType="com.myblog.blog.model.Type">
+        select id,name from t_type where id = #{typeid}
+    </select>
+
+    <!--通过title和文章内容查询-->
+    <select id="selectBlogByTitle" resultMap="BlogTypeResultMap">
+        select
+        id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content,recordlife
+        from
+        t_blog
+        where recycle != 1 and (title like concat ('%',#{searchtitle},'%') or description like concat
+        ('%',#{searchtitle},'%'))
+    </select>
+
+    <!--通过title查询并且扩大范围-->
+
+    <select id="selectBlogByTitleEnlargeRange" resultMap="BlogTypeResultMap">
+        select
+        id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content
+        from
+        t_blog
+        where recycle != 1 and
+        title like concat ('%',#{searchtitle},'%') or
+        description like concat ('%',#{searchtitle},'%') or
+        content like concat ('%',#{searchtitle},'%')
+    </select>
+
+
+    <!--通过typeid查询 分页-->
+    <select id="selectBlogByTypeId" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, title, description
+        from
+        t_blog
+        where typeid = #{searchtypeid} and recycle != 1 limit #{startpage},#{number}
+    </select>
+
+    <!--不分页查询-->
+    <select id="selectBlogByTypeIdNoPage" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content
+        from
+        t_blog
+        where typeid = #{searchtypeid} and recycle != 1
+    </select>
+
+    <!--通过typeid查询博客 , 用于约束分类是否能被删除-->
+    <select id="selectAllBlogByTypeId" resultMap="BlogTypeResultMap">
+        select id
+        from
+        t_blog
+        where typeid = #{searchtypeid}
+    </select>
+
+    <!--通过recommend进行查询-->
+    <select id="selectBlogByRecommend" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content
+        from
+        t_blog
+        where recommend = 1 and recycle != 1
+    </select>
+
+    <!--查询总数-->
+    <select id="selectBlogCount" resultType="Integer">
+        select count(id) from t_blog where recycle != 1
+    </select>
+
+    <!--查询并通过创建日期排序-->
+    <select id="selectBlogOrderByCreateTime" resultMap="BlogTypeResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from
+        t_blog
+        where
+        recycle != 1
+        order by
+        createtime
+
+    </select>
+
+    <select id="selectBlogOrderByCreateTimeLimit" resultMap="BlogTypeResultMap">
+        select
+        id, createtime, updatetime, typeid, title, view, description
+        from
+        t_blog
+        where
+        recycle != 1
+        order by
+        createtime
+        desc
+        limit #{range}
+    </select>
+
+
+    <!--增加view-->
+    <update id="addView">
+        update t_blog set view = view + 1 where id = #{id}
+    </update>
+
+    <!--增加admire-->
+    <update id="addAdmire">
+        update t_blog set admire = admire + 1 where id = #{id}
+    </update>
+
+    <!--修改存在状态-->
+    <update id="UpdateDeleteStateById">
+        update t_blog set recycle = 1 where id = #{id}
+    </update>
+
+    <update id="UpdateRecoverStateById">
+        update t_blog set recycle = 0 where id = #{id}
+    </update>
+
+    <!--查询出在回收站的博客-->
+    <select id="selectBlogByrecycle" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, tagid, nature, title, view, description,
+        stick, recommend, reprint, supportreview, admire,content
+        from
+        t_blog
+        where
+        recycle = 1
+    </select>
+
+    <select id="selectBlogCountByTypeId" resultType="Integer">
+        select count(id) from t_blog where typeid = #{id} and recycle != 1
+    </select>
+
+    <!--自定义查询-->
+    <select id="selectBlogBySql" resultMap="BlogTypeResultMap">
+        ${sql}
+    </select>
+
+    <!--批量删除-->
+    <update id="UpdateMultipleDeleteStateById" parameterType="list">
+        update t_blog set recycle = 1
+        <where>
+            id in
+            <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </where>
+    </update>
+
+    <!--记录生活查询-->
+    <select id="selectBlogByRecordLife" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, nature, title, description,recordlife
+        from
+        t_blog
+        where
+        recycle!=1 and recordlife=1 order by createtime
+    </select>
+
+
+    <!--回收站中进行查询-->
+    <select id="selectBlogByTitleFromRecycle" resultMap="BlogTypeResultMap">
+        select id, firstpicture, createtime, updatetime, typeid, title, view, description,
+        stick, recommend, reprint, supportreview, admire,recordlife
+        from t_blog
+        where 1=1 and recycle = 1
+        <if test="searchtitle!=null and searchtitle!=''">
+            and title like concat('%',#{searchtitle},'%')
+        </if>
+        <if test="typeid!=null and typeid!='' and typeid!=0">
+            and typeid = #{typeid}
+        </if>
+        <if test="recommend!=null and recommend!=''">
+            and recommend = #{recommend}
+        </if>
+    </select>
+
+    <!--查询源文本内容-->
+    <select id="selectBlogOriginalContent" resultType="String">
+        select content from t_blog where id = #{id}
+    </select>
+
+
+    <!--查询博客是否在回收站-->
+    <select id="selectBlogByrecycleId" resultType="Integer">
+        select count(id) from t_blog where id = #{id} and recycle = 1
+    </select>
+
+    <!--修改 Sort 通过 id-->
+    <update id="updateSortById">
+        update t_blog
+        set
+        sort = #{sort}
+        where id = #{id}
+    </update>
+
+    <select id="selectAllBlogOnlySort" resultMap="BlogTypeResultMap">
+        select
+        id, sort, title
+        from
+        t_blog
+        where
+        recycle != 1
+        order by sort desc, createtime desc
+        limit #{startpage},#{number}
+    </select>
+
+</mapper>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.blog.dao.ProjectMapper">
+
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Project">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="p_picture__url" jdbcType="VARCHAR" property="pPictureUrl"/>
+        <result column="p_description" jdbcType="VARCHAR" property="pDescription"/>
+        <result column="p_link_url" jdbcType="VARCHAR" property="pLinkUrl"/>
+        <result column="p_title" jdbcType="VARCHAR" property="pTitle"/>
+        <result column="p_tag" jdbcType="VARCHAR" property="pTag"/>
+        <result column="p_online_link" jdbcType="VARCHAR" property="pOnlineLink"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, p_picture__url, p_description, p_link_url, p_title , p_tag , p_online_link
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_project
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_project
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.myblog.blog.model.Project">
+        insert into t_project (id, p_picture__url, p_description,
+        p_link_url, p_title , p_online_link)
+        values (#{id,jdbcType=BIGINT}, #{pPictureUrl,jdbcType=VARCHAR}, #{pDescription,jdbcType=VARCHAR},
+        #{pLinkUrl,jdbcType=VARCHAR}, #{pTitle,jdbcType=VARCHAR}, #{p_online_link,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Project">
+        insert into t_project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="pPictureUrl != null">
+                p_picture__url,
+            </if>
+            <if test="pDescription != null">
+                p_description,
+            </if>
+            <if test="pLinkUrl != null">
+                p_link_url,
+            </if>
+            <if test="pTitle != null">
+                p_title,
+            </if>
+            <if test="pOnlineLink != null">
+                p_online_link,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pPictureUrl != null">
+                #{pPictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pDescription != null">
+                #{pDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="pLinkUrl != null">
+                #{pLinkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pTitle != null">
+                #{pTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="pOnlineLink != null">
+                #{pOnlineLink,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Project">
+        update t_project
+        <set>
+            <if test="pPictureUrl != null">
+                p_picture__url = #{pPictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pDescription != null">
+                p_description = #{pDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="pLinkUrl != null">
+                p_link_url = #{pLinkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="pTitle != null">
+                p_title = #{pTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="pOnlineLink != null">
+                p_online_link = #{pOnlineLink,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Project">
+        update t_project
+        set p_picture__url = #{pPictureUrl,jdbcType=VARCHAR},
+        p_description = #{pDescription,jdbcType=VARCHAR},
+        p_link_url = #{pLinkUrl,jdbcType=VARCHAR},
+        p_title = #{pTitle,jdbcType=VARCHAR}
+        p_online_link = #{pOnlineLink,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <!--自定义查询-->
+    <select id="selectProject" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_project
+    </select>
+
+</mapper>

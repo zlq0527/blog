@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.blog.dao.TypeMapper">
+
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Type">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_type
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_type
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.myblog.blog.model.Type">
+        insert into t_type (id, name)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Type">
+        insert into t_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Type">
+        update t_type
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Type">
+        update t_type
+        set name = #{name,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--自定义查询-->
+    <select id="selctTypeByname" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_type where name = #{typename}
+    </select>
+
+    <!--查询所有type-->
+    <select id="selectAllType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_type
+    </select>
+
+    <resultMap id="TypeBlogMap" type="com.myblog.blog.model.Type">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+
+        <collection property="blogList" ofType="com.myblog.blog.model.Blog" select="selectBlog" column="id">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="firstpicture" jdbcType="VARCHAR" property="firstpicture"/>
+            <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+            <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime"/>
+            <result column="typeid" jdbcType="INTEGER" property="typeid"/>
+            <result column="tagid" jdbcType="INTEGER" property="tagid"/>
+            <result column="nature" jdbcType="VARCHAR" property="nature"/>
+            <result column="title" jdbcType="VARCHAR" property="title"/>
+            <result column="view" jdbcType="INTEGER" property="view"/>
+            <result column="description" jdbcType="VARCHAR" property="description"/>
+            <result column="stick" jdbcType="BIT" property="stick"/>
+            <result column="recommend" jdbcType="BIT" property="recommend"/>
+            <result column="reprint" jdbcType="BIT" property="reprint"/>
+            <result column="supportreview" jdbcType="BIT" property="supportreview"/>
+            <result column="admire" jdbcType="BIGINT" property="admire"/>
+            <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        </collection>
+
+    </resultMap>
+
+    <!--查询type和blog-->
+    <select id="selectTypeAndNumber" resultMap="TypeBlogMap">
+        select id,name from t_type
+    </select>
+
+    <select id="selectBlog" resultType="com.myblog.blog.model.Blog">
+        select id
+        from t_blog
+        where typeid = #{id} and recycle != 1
+    </select>
+
+    <select id="selectAllCount" resultType="Integer">
+        select count(id) from t_type
+    </select>
+
+    <!--分页查询-->
+    <select id="selectAllTypePage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_type limit #{startpage},#{datanumber}
+    </select>
+
+</mapper>

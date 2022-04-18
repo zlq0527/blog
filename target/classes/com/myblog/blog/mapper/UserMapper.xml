@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myblog.blog.dao.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="pagetitle" jdbcType="VARCHAR" property="pagetitle"/>
+        <result column="cardtitle" jdbcType="VARCHAR" property="cardtitle"/>
+        <result column="firstPicture" jdbcType="VARCHAR" property="firstPicture"/>
+        <result column="theme" jdbcType="VARCHAR" property="theme"/>
+        <result column="search_url" jdbcType="VARCHAR" property="searchBg"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, avatar, creat_time, email, nick_name, password, type, update_time,
+        username,description,cardtitle,pagetitle,firstPicture
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_user
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.myblog.blog.model.User">
+        insert into t_user (id, avatar, creat_time,
+        email, nick_name, password,
+        type, update_time, username,pagetitle,description,cardtitle,firstPicture
+        )
+        values (#{id,jdbcType=BIGINT}, #{avatar,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP},
+        #{email,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR},
+        pagetitle = #{pagetitle,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        cardtitle = #{cardtitle,jdbcType=VARCHAR},
+        firstPicture = #{firstPicture,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.User">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="creatTime != null">
+                creat_time,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="pagetitle != null">
+                pagetitle,
+            </if>
+            <if test="cardtitle != null">
+                cardtitle,
+            </if>
+            <if test="firstPicture != null">
+                firstPicture,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="pagetitle != null">
+                #{pagetitle,jdbcType=VARCHAR},
+            </if>
+            <if test="cardtitle != null">
+                #{cardtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPicture != null">
+                #{firstPicture,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.User">
+        update t_user
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="creatTime != null">
+                creat_time = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="pagetitle != null">
+                pagetitle = #{pagetitle,jdbcType=VARCHAR},
+            </if>
+            <if test="cardtitle != null">
+                cardtitle = #{cardtitle,jdbcType=VARCHAR},
+            </if>
+            <if test="firstPicture != null">
+                firstPicture = #{firstPicture,jdbcType=VARCHAR},
+            </if>
+            <if test="searchBg != null">
+                search_url = #{searchBg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.User">
+        update t_user
+        set avatar = #{avatar,jdbcType=VARCHAR},
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+        email = #{email,jdbcType=VARCHAR},
+        nick_name = #{nickName,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        type = #{type,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        username = #{username,jdbcType=VARCHAR}
+        pagetitle = #{pagetitle,jdbcType=VARCHAR}
+        description = #{description,jdbcType=VARCHAR}
+        cardtitle = #{cardtitle,jdbcType=VARCHAR}
+        firstPicture = #{firstPicture,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <!--自定义查询-->
+
+    <!--登录查询sql-->
+    <select id="selectByUsernameAndPassword" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user where username = #{username} and password = #{password}
+    </select>
+
+    <!--查询user-->
+    <resultMap id="IndexMap" type="com.myblog.blog.model.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="pagetitle" jdbcType="VARCHAR" property="pagetitle"/>
+        <result column="cardtitle" jdbcType="VARCHAR" property="cardtitle"/>
+        <result column="firstPicture" jdbcType="VARCHAR" property="firstPicture"/>
+        <result column="theme" jdbcType="VARCHAR" property="theme"/>
+        <result column="search_url" jdbcType="VARCHAR" property="searchBg"/>
+    </resultMap>
+
+    <select id="selectUser" resultMap="IndexMap">
+        select id, avatar, creat_time, email, nick_name, description, pagetitle,cardtitle,firstPicture,theme,search_url
+        from t_user
+    </select>
+
+    <update id="updatePassword">
+        update t_user set password = #{newPass} where password = #{originalPass} and question = #{question}
+    </update>
+
+    <update id="updateByFirstPicture">
+        update t_user set firstPicture = #{url}
+    </update>
+
+    <update id="updateByTheme">
+        update t_user set theme = #{theme}
+    </update>
+</mapper>

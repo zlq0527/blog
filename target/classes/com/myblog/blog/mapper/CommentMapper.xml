@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myblog.blog.dao.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Comment">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="createtime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="blogid" jdbcType="BIGINT" property="blogid"/>
+        <result column="parentid" jdbcType="BIGINT" property="parentid"/>
+        <result column="admincomment" jdbcType="BIT" property="admincomment"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, content, avatar, createtime, email, nickname, blogid, parentid, admincomment
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_comment
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_comment
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.myblog.blog.model.Comment">
+        insert into t_comment (id, content, avatar,
+        createtime, email, nickname,
+        blogid, parentid, admincomment
+        )
+        values (#{id,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
+        #{createtime,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+        #{blogid,jdbcType=BIGINT}, #{parentid,jdbcType=BIGINT}, #{admincomment,jdbcType=BIT}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Comment">
+        insert into t_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="blogid != null">
+                blogid,
+            </if>
+            <if test="parentid != null">
+                parentid,
+            </if>
+            <if test="admincomment != null">
+                admincomment,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="blogid != null">
+                #{blogid,jdbcType=BIGINT},
+            </if>
+            <if test="parentid != null">
+                #{parentid,jdbcType=BIGINT},
+            </if>
+            <if test="admincomment != null">
+                #{admincomment,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Comment">
+        update t_comment
+        <set>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="blogid != null">
+                blogid = #{blogid,jdbcType=BIGINT},
+            </if>
+            <if test="parentid != null">
+                parentid = #{parentid,jdbcType=BIGINT},
+            </if>
+            <if test="admincomment != null">
+                admincomment = #{admincomment,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Comment">
+        update t_comment
+        set content = #{content,jdbcType=VARCHAR},
+        avatar = #{avatar,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        nickname = #{nickname,jdbcType=VARCHAR},
+        blogid = #{blogid,jdbcType=BIGINT},
+        parentid = #{parentid,jdbcType=BIGINT},
+        admincomment = #{admincomment,jdbcType=BIT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--自定义查询-->
+
+    <resultMap id="CommentBlogResultMap" type="com.myblog.blog.model.Comment">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="createtime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="blogid" jdbcType="BIGINT" property="blogid"/>
+        <result column="parentid" jdbcType="BIGINT" property="parentid"/>
+        <result column="admincomment" jdbcType="BIT" property="admincomment"/>
+
+        <association property="blog" javaType="com.myblog.blog.model.Blog" select="selectBlog" column="blogid">
+            <id column="id" jdbcType="BIGINT" property="blogid"/>
+            <result column="title" jdbcType="VARCHAR" property="title"/>
+        </association>
+
+    </resultMap>
+
+    <select id="selectComments" resultMap="CommentBlogResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_comment order by createtime desc
+    </select>
+
+    <select id="selectBlog" resultType="com.myblog.blog.model.Blog">
+        select title
+        from t_blog where id = #{blogid}
+    </select>
+
+    <select id="selectSonByPrimaryKey" resultType="com.myblog.blog.model.Comment">
+        select
+        <include refid="Base_Column_List"/>
+        from t_comment
+        where parentid = #{id}
+    </select>
+
+</mapper>

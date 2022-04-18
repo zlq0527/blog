@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myblog.blog.dao.MessageboardMapper">
+
+    <resultMap id="BaseResultMap" type="com.myblog.blog.model.Messageboard">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="createtime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="parentid" jdbcType="INTEGER" property="parentid"/>
+        <result column="admin" jdbcType="BIT" property="admin"/>
+        <result column="parentname" jdbcType="VARCHAR" property="parentname"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, avatar, content, createtime, email, nickname, parentid, admin, parentname
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_messageboard
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_messageboard
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.myblog.blog.model.Messageboard">
+        insert into t_messageboard (id, avatar, content,
+        createtime, email, nickname,
+        parentid, admin, parentname
+        )
+        values (#{id,jdbcType=BIGINT}, #{avatar,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+        #{createtime,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+        #{parentid,jdbcType=INTEGER}, #{admin,jdbcType=BIT}, #{parentname,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.myblog.blog.model.Messageboard">
+        insert into t_messageboard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="parentid != null">
+                parentid,
+            </if>
+            <if test="admin != null">
+                admin,
+            </if>
+            <if test="parentname != null">
+                parentname,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                #{parentid,jdbcType=INTEGER},
+            </if>
+            <if test="admin != null">
+                #{admin,jdbcType=BIT},
+            </if>
+            <if test="parentname != null">
+                #{parentname,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.myblog.blog.model.Messageboard">
+        update t_messageboard
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                parentid = #{parentid,jdbcType=INTEGER},
+            </if>
+            <if test="admin != null">
+                admin = #{admin,jdbcType=BIT},
+            </if>
+            <if test="parentname != null">
+                parentname = #{parentname,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.myblog.blog.model.Messageboard">
+        update t_messageboard
+        set avatar = #{avatar,jdbcType=VARCHAR},
+        content = #{content,jdbcType=VARCHAR},
+        createtime = #{createtime,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        nickname = #{nickname,jdbcType=VARCHAR},
+        parentid = #{parentid,jdbcType=INTEGER},
+        admin = #{admin,jdbcType=BIT},
+        parentname = #{parentname,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--自定义查询-->
+
+    <resultMap id="ResultMapMe" type="com.myblog.blog.model.Messageboard">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="createtime" jdbcType="VARCHAR" property="createtime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="parentid" jdbcType="INTEGER" property="parentid"/>
+        <result column="admin" jdbcType="BIT" property="admin"/>
+        <result column="parentname" jdbcType="VARCHAR" property="parentname"/>
+        <collection property="sonMessage" select="selectSonMesssage" column="id"
+                    ofType="com.myblog.blog.model.Messageboard">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+            <result column="content" jdbcType="VARCHAR" property="content"/>
+            <result column="createtime" jdbcType="VARCHAR" property="createtime"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+            <result column="parentid" jdbcType="INTEGER" property="parentid"/>
+            <result column="admin" jdbcType="BIT" property="admin"/>
+            <result column="parentname" jdbcType="VARCHAR" property="parentname"/>
+        </collection>
+    </resultMap>
+    <!--查询-->
+    <select id="selectMessageBoard" resultMap="ResultMapMe">
+        select
+        <include refid="Base_Column_List"/>
+        from t_messageboard where parentid = 0 order by createtime
+    </select>
+
+    <select id="selectSonMesssage" resultMap="ResultMapMe">
+        select
+        <include refid="Base_Column_List"/>
+        from t_messageboard where parentid = #{id}
+    </select>
+
+    <select id="selectAllMessageBoard" resultMap="ResultMapMe">
+        select
+        <include refid="Base_Column_List"/>
+        from t_messageboard order by createtime desc
+    </select>
+
+
+</mapper>
